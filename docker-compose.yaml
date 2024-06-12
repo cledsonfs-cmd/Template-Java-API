@@ -1,0 +1,24 @@
+version: "3.8"
+networks:
+  login-net:
+    driver: bridge
+    name: template-net
+  db-postgresql-net:
+    name: db-postgresql-net
+    driver: bridge
+
+services:
+  login-back:
+    container_name: "api-java"
+    image: templates.local:5000/backend/api-java
+    networks:
+      - template-net
+      - db-postgresql-net
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - MAVEN_PROFILE=${MAVEN_PROFILE}
+    ports:
+      - "8081:8081"
+    restart: unless-stopped

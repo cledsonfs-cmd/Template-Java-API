@@ -8,9 +8,10 @@ import lombok.Setter;
 public enum UsuarioEvents {
 
     INICIAR,
-    FAZER_ALGO,
-    FAZER_OUTRA_COISA,
-    FINALIZAR;
+    ATIVAR,
+    SUSPENDER,
+    INATIVAR,
+    EXCLUIR;
 
     @Getter @Setter
     private Usuario usuario;

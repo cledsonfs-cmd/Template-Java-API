@@ -1,19 +1,13 @@
 package br.com.template.statemachine.interceptors;
 
 import br.com.template.model.Usuario;
+import br.com.template.model.UsuarioHistorico;
 import br.com.template.repository.UsuarioRepository;
+import br.com.template.service.HistoricoUsuarioService;
 import br.com.template.statemachine.enums.UsuarioEvents;
 import br.com.template.statemachine.enums.UsuarioStates;
 import br.com.template.statemachine.service.StateMachineErrorService;
-import br.gov.ce.sop.conserva.model.entity.Medicao;
-import br.gov.ce.sop.conserva.model.entity.MedicaoHistorico;
-import br.gov.ce.sop.conserva.model.entity.TipoHistoricoMedicao;
-import br.gov.ce.sop.conserva.model.repository.MedicaoRepository;
-import br.gov.ce.sop.conserva.model.service.MedicaoHistoricoService;
-import br.gov.ce.sop.conserva.security.dto.AutenticatedUser;
-import br.gov.ce.sop.conserva.statemachine.enums.MedicaoEvents;
-import br.gov.ce.sop.conserva.statemachine.enums.MedicaoStatesFisico;
-import br.gov.ce.sop.conserva.statemachine.service.StateMachineErrorService;
+import br.com.template.view.model.UsuarioHistoricoDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
@@ -35,29 +29,25 @@ public class StatusMedicaoChangeInterceptor extends StateMachineInterceptorAdapt
 
     private final UsuarioRepository medicaoRepository;
     private final StateMachineErrorService errorService;
-    private final MedicaoHistoricoService historicoService;
+    private final HistoricoUsuarioService historicoService;
 
     @Override
     @Transactional(propagation = Propagation.MANDATORY)
     public void preStateChange(State<UsuarioStates, UsuarioEvents> state, Message<UsuarioEvents> message, Transition<UsuarioStates, UsuarioEvents> transition, StateMachine<UsuarioStates, UsuarioEvents> stateMachine, StateMachine<UsuarioStates, UsuarioEvents> rootStateMachine) {
         List<String> errors = errorService.getErrors(stateMachine.getExtendedState());
         if (errors.isEmpty()) {
-            Optional.ofNullable(message).flatMap(msg -> Optional.ofNullable((Long) msg.getHeaders().getOrDefault(message.getPayload().getMedicao().getId(), -1L)))
+            Optional.ofNullable(message).flatMap(msg -> Optional.ofNullable((Long) msg.getHeaders().getOrDefault(message.getPayload().getUsuario().getId(), -1L)))
                     .ifPresent(idMedicao -> {
                         Usuario usuario = message.getPayload().getUsuario();
-                        usuario.setIdStatusFisico(transition.getTarget().getId().getId());
+                        usuario.setIdStatus(transition.getTarget().getId().getId());
 
-                        medicao = Objects.requireNonNull(message).getPayload().getMedicao();
-                        MedicaoHistorico medicaoHistorico = MedicaoHistorico.builder()
-                                .medicao(medicao)
-                                .dataHora(LocalDateTime.now())
-                                .tipoHistoricoMedicao(TipoHistoricoMedicao.builder()
-                                        .id(message.getPayload().getMedicaoHistoricoDTO().getIdTipoHistorico())
-                                        .build())
-                                .matricula(AutenticatedUser.getInstance().getUserName())
-                                .observacao(message.getPayload().getMedicaoHistoricoDTO().getObservacao())
+                        usuario = Objects.requireNonNull(message).getPayload().getUsuario();
+                        UsuarioHistorico medicaoHistorico = UsuarioHistorico.builder()
+                                .usuario(usuario)
+                                .dataRegistro(LocalDateTime.now())
+                                .descricao(message.getPayload().getUsuarioHistoricoDTO().getDescricao())
                                 .build();
-                        historicoService.save(medicaoHistorico);
+                        historicoService.salvar(medicaoHistorico);
                     });
         }
     }

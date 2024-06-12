@@ -12,9 +12,9 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 public enum UsuarioStates {
     INICIO(1),
-    STATUS_1(2),
-    STATUS_2(3),
-    STATUS_3(4),
+    ATIVO(2),
+    SUSPENSO(3),
+    INATIVO(4),
     FIM(5);
 
     private int id;

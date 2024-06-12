@@ -1,8 +1,8 @@
 package br.com.template.statemachine.service.impl;
 
-import br.gov.ce.sop.conserva.statemachine.enums.MedicaoEvents;
-import br.gov.ce.sop.conserva.statemachine.enums.MedicaoStatesFisico;
-import br.gov.ce.sop.conserva.statemachine.service.StateMachineErrorService;
+import br.com.template.statemachine.enums.UsuarioEvents;
+import br.com.template.statemachine.enums.UsuarioStates;
+import br.com.template.statemachine.service.StateMachineErrorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.statemachine.ExtendedState;
 import org.springframework.statemachine.StateContext;
@@ -17,7 +17,7 @@ public class StateMachineErrorServiceImpl implements StateMachineErrorService {
 
     private final String VARIABLE_ERRORS = "ERROS";
 
-    public void addError(StateContext<MedicaoStatesFisico, MedicaoEvents> state, String error) {
+    public void addError(StateContext<UsuarioStates, UsuarioEvents> state, String error) {
         List<String> errors = getErrors(state.getExtendedState());
         errors.add(error);
         state.getExtendedState().getVariables().put(VARIABLE_ERRORS, errors);

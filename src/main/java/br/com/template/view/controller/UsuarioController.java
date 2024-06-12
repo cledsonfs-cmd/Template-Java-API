@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import br.com.template.model.Usuario;
 import br.com.template.service.UsuarioService;
-import io.swagger.annotations.ApiOperation;
+//import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +26,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioService servicoUsuario;
 
-    @ApiOperation(value = "Retorna uma lista de usuários cadastrados")
+   // @ApiOperation(value = "Retorna uma lista de usuários cadastrados")
     @GetMapping
     public List<Usuario> obterTodos(){
         return servicoUsuario.obterTodos();

@@ -1,16 +1,16 @@
 package br.com.template.statemachine.service.impl;
 
-import br.gov.ce.sop.conserva.api.exception.StateMachineException;
-import br.gov.ce.sop.conserva.model.entity.Medicao;
-import br.gov.ce.sop.conserva.statemachine.enums.MedicaoEvents;
-import br.gov.ce.sop.conserva.statemachine.enums.MedicaoStatesFisico;
-import br.gov.ce.sop.conserva.statemachine.interceptors.StatusMedicaoChangeInterceptor;
-import br.gov.ce.sop.conserva.statemachine.service.StateMachineErrorService;
-import br.gov.ce.sop.conserva.statemachine.service.StateMachineEventService;
+import br.com.template.model.Usuario;
+import br.com.template.statemachine.enums.UsuarioEvents;
+import br.com.template.statemachine.enums.UsuarioStates;
+import br.com.template.statemachine.interceptors.StatusMedicaoChangeInterceptor;
+import br.com.template.statemachine.service.StateMachineErrorService;
+import br.com.template.statemachine.service.StateMachineEventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.statemachine.StateMachine;
+import org.springframework.statemachine.StateMachineException;
 import org.springframework.statemachine.config.StateMachineFactory;
 import org.springframework.statemachine.support.DefaultStateMachineContext;
 import org.springframework.stereotype.Service;
@@ -22,15 +22,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StateMachineEventServiceImpl implements StateMachineEventService {
 
-    private final StateMachineFactory<MedicaoStatesFisico, MedicaoEvents> factory;
+    private final StateMachineFactory<UsuarioStates, UsuarioEvents> factory;
     private final StatusMedicaoChangeInterceptor interceptor;
     private final StateMachineErrorService stateMachineErrorService;
 
     @Override
-    public StateMachine<MedicaoStatesFisico, MedicaoEvents> buildSM(Medicao medicao) {
-        MedicaoStatesFisico status = MedicaoStatesFisico.of(medicao.getIdStatusFisico());
+    public StateMachine<UsuarioStates, UsuarioEvents> buildSM(Usuario usuario) {
+        UsuarioStates status = UsuarioStates.of(usuario.getIdStatus());
 
-        StateMachine<MedicaoStatesFisico, MedicaoEvents> sm = factory.getStateMachine(medicao.getIdStatusFisico().toString());
+        StateMachine<UsuarioStates, UsuarioEvents> sm = factory.getStateMachine(usuario.getIdStatus().toString());
 
         sm.stopReactively().block();
 
@@ -45,9 +45,9 @@ public class StateMachineEventServiceImpl implements StateMachineEventService {
     }
 
     @Override
-    public void sendEvent(Medicao medicao, MedicaoEvents event) {
-        StateMachine<MedicaoStatesFisico, MedicaoEvents> sm = buildSM(medicao);
-        event.setMedicao(medicao);
+    public void sendEvent(Usuario usuario, UsuarioEvents event) {
+        StateMachine<UsuarioStates, UsuarioEvents> sm = buildSM(usuario);
+        event.setUsuario(usuario);
 
         sm.sendEvent(Mono.just(MessageBuilder
                         .withPayload(event)
@@ -55,15 +55,15 @@ public class StateMachineEventServiceImpl implements StateMachineEventService {
                 .subscribe();
         List<String> erros = stateMachineErrorService.getErrors(sm.getExtendedState());
         if (!erros.isEmpty()) {
-            throw new StateMachineException(erros);
+            throw new StateMachineException(String.valueOf(erros));
         }
 
     }
 
     @Override
-    public void sendEvent(Medicao medicao, MedicaoEvents event, MessageHeaderAccessor messageHeaderAccessor){
-        StateMachine<MedicaoStatesFisico, MedicaoEvents> sm = buildSM(medicao);
-        event.setMedicao(medicao);
+    public void sendEvent(Usuario usuario, UsuarioEvents event, MessageHeaderAccessor messageHeaderAccessor){
+        StateMachine<UsuarioStates, UsuarioEvents> sm = buildSM(usuario);
+        event.setUsuario(usuario);
 
         sm.sendEvent(Mono.just(MessageBuilder
                         .withPayload(event)
@@ -72,7 +72,7 @@ public class StateMachineEventServiceImpl implements StateMachineEventService {
                 .subscribe();
         List<String> erros = stateMachineErrorService.getErrors(sm.getExtendedState());
         if (!erros.isEmpty()) {
-            throw new StateMachineException(erros);
+            throw new StateMachineException(String.valueOf(erros));
         }
 
     }

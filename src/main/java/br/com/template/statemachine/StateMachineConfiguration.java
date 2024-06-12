@@ -33,16 +33,28 @@ public class StateMachineConfiguration extends StateMachineConfigurerAdapter<Usu
         transitions
                 .withExternal()
                 .source(UsuarioStates.INICIO)
-                .target(UsuarioStates.STATUS_1)
-                .event(UsuarioEvents.FAZER_ALGO)
+                .target(UsuarioStates.ATIVO)
+                .event(UsuarioEvents.ATIVAR)
                 .guard(service::guardFazerAlgo)
-                .action(service::actionFazerAlgo)
+                .action(service::actionAtivar)
                 .and().withExternal()
 
-                .source(UsuarioStates.STATUS_1)
-                .target(UsuarioStates.STATUS_2)
-                .event(UsuarioEvents.FAZER_OUTRA_COISA)
-                .action(service::actionFazerOutraCoisa)
+                .source(UsuarioStates.ATIVO)
+                .target(UsuarioStates.SUSPENSO)
+                .event(UsuarioEvents.SUSPENDER)
+                .action(service::actionSuspender)
+                .and().withExternal()
+
+                .source(UsuarioStates.SUSPENSO)
+                .target(UsuarioStates.INATIVO)
+                .event(UsuarioEvents.INATIVAR)
+                .action(service::actionInativar)
+                .and().withExternal()
+
+                .source(UsuarioStates.INATIVO)
+                .target(UsuarioStates.FIM)
+                .event(UsuarioEvents.EXCLUIR)
+                .action(service::actionExcluir)
                 .and().withExternal()
             ;
 
