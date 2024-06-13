@@ -3,7 +3,7 @@
 Template API construida na linguagem Java.<br/>
 
 ## Tecnologias Aplicadas
-### Java
+### Spring Boot
 ### Spring Statemachine
 ### Scheduling Tasks
 ### JUnit, Mokito, Jococo
