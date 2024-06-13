@@ -1,8 +1,8 @@
 package br.com.template.statemachine;
 
-import br.com.template.service.UsuarioStatesService;
-import br.com.template.statemachine.enums.UsuarioEvents;
-import br.com.template.statemachine.enums.UsuarioStates;
+import br.com.template.enums.UsuarioEvents;
+import br.com.template.enums.UsuarioStates;
+import br.com.template.statemachine.service.UsuarioStatesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.config.EnableStateMachineFactory;
@@ -56,7 +56,7 @@ public class StateMachineConfiguration extends StateMachineConfigurerAdapter<Usu
                 .event(UsuarioEvents.EXCLUIR)
                 .action(service::actionExcluir)
                 .and().withExternal()
-            ;
+        ;
 
     }
 }

@@ -1,8 +1,8 @@
 package br.com.template.statemachine.service.impl;
 
-import br.com.template.model.Usuario;
-import br.com.template.statemachine.enums.UsuarioEvents;
-import br.com.template.statemachine.enums.UsuarioStates;
+import br.com.template.enums.UsuarioEvents;
+import br.com.template.enums.UsuarioStates;
+import br.com.template.model.entity.Usuario;
 import br.com.template.statemachine.interceptors.StatusMedicaoChangeInterceptor;
 import br.com.template.statemachine.service.StateMachineErrorService;
 import br.com.template.statemachine.service.StateMachineEventService;

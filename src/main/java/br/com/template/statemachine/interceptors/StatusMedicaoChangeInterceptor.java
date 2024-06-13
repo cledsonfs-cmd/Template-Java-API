@@ -1,13 +1,13 @@
 package br.com.template.statemachine.interceptors;
 
-import br.com.template.model.Usuario;
-import br.com.template.model.UsuarioHistorico;
+import br.com.template.enums.UsuarioEvents;
+import br.com.template.enums.UsuarioStates;
+
+import br.com.template.model.entity.Usuario;
+import br.com.template.model.entity.UsuarioHistorico;
 import br.com.template.repository.UsuarioRepository;
 import br.com.template.service.HistoricoUsuarioService;
-import br.com.template.statemachine.enums.UsuarioEvents;
-import br.com.template.statemachine.enums.UsuarioStates;
 import br.com.template.statemachine.service.StateMachineErrorService;
-import br.com.template.view.model.UsuarioHistoricoDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
@@ -45,7 +45,7 @@ public class StatusMedicaoChangeInterceptor extends StateMachineInterceptorAdapt
                         UsuarioHistorico medicaoHistorico = UsuarioHistorico.builder()
                                 .usuario(usuario)
                                 .dataRegistro(LocalDateTime.now())
-                                .descricao(message.getPayload().getUsuarioHistoricoDTO().getDescricao())
+                                .descricao(message.getPayload().getUsuarioHistorico().getDescricao())
                                 .build();
                         historicoService.salvar(medicaoHistorico);
                     });

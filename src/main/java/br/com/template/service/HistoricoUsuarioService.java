@@ -1,7 +1,5 @@
 package br.com.template.service;
-
-
-import br.com.template.model.UsuarioHistorico;
+import br.com.template.model.entity.UsuarioHistorico;
 
 import java.util.List;
 

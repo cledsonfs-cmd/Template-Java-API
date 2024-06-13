@@ -1,6 +1,5 @@
 package br.com.template.service.impl;
-
-import br.com.template.model.UsuarioHistorico;
+import br.com.template.model.entity.UsuarioHistorico;
 import br.com.template.repository.HistoricoUsuarioRepository;
 import br.com.template.service.HistoricoUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
