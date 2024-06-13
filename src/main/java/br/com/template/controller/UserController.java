@@ -46,22 +46,22 @@ public class UserController {
         return new ResponseEntity<>("Administrador autenticado com sucesso", HttpStatus.OK);
     }
 
-    @PostMapping("")
+    @PostMapping("/ativar")
     public ResponseEntity<String> ativar(@RequestBody UsuarioDTO dto){
         return new ResponseEntity<>(userService.ativar(dto), HttpStatus.OK);
     }
 
-    @PostMapping("")
+    @PostMapping("/suspender")
     public ResponseEntity<String> suspender(@RequestBody UsuarioDTO dto){
         return new ResponseEntity<>(userService.suspender(dto), HttpStatus.OK);
     }
 
-    @PostMapping("")
+    @PostMapping("/inativar")
     public ResponseEntity<String> inativar(@RequestBody UsuarioDTO dto){
         return new ResponseEntity<>(userService.inativar(dto), HttpStatus.OK);
     }
 
-    @PostMapping("")
+    @PostMapping("/excluir")
     public ResponseEntity<String> excluir(@RequestBody UsuarioDTO dto){
         return new ResponseEntity<>(userService.excluir(dto), HttpStatus.OK);
     }
