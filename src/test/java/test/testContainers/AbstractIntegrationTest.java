@@ -1,4 +1,4 @@
-package tools;
+package test.testContainers;
 
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -37,7 +37,7 @@ public class AbstractIntegrationTest {
             ConfigurableEnvironment environment = applicationContext.getEnvironment();
             MapPropertySource testcontainers =
                     new MapPropertySource(
-                            "tools/testContainers",
+                            "testContainers",
                             (Map) createConnectionConfiguration());
 
             environment.getPropertySources().addFirst(testcontainers);
