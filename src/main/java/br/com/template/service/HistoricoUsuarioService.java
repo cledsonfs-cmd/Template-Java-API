@@ -1,18 +1,21 @@
 package br.com.template.service;
+import br.com.template.model.entity.Usuario;
 import br.com.template.model.entity.UsuarioHistorico;
 
 import java.util.List;
 
 public interface HistoricoUsuarioService {
 
-    UsuarioHistorico salvar(UsuarioHistorico historicoUsuario);
+    String salvar(UsuarioHistorico historicoUsuario);
 
-    UsuarioHistorico buscarPorId(Long id);
+    UsuarioHistorico buscarPorId(Integer id);
 
     List<UsuarioHistorico> buscarTodos();
 
-    void excluir(Long id);
+    String excluir(Integer id);
 
-    UsuarioHistorico atualizar(UsuarioHistorico historicoUsuario);
+    String atualizar(UsuarioHistorico historicoUsuario);
+
+    List<UsuarioHistorico> buscarPorUsuario(Usuario usuario);
 
 }

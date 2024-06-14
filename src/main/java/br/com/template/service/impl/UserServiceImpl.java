@@ -44,6 +44,7 @@ public class UserServiceImpl implements UserService {
     private ModelMapper modelMapper = new ModelMapper();
 
     // Método responsável por autenticar um usuário e retornar um token JWT
+    @Override
     public RecoveryJwtTokenDto authenticateUser(LoginRequestDTO dto) {
         if (dto.email().isEmpty()) {
             throw new CampoObrigatorioException();
@@ -64,7 +65,8 @@ public class UserServiceImpl implements UserService {
         return new RecoveryJwtTokenDto(jwtTokenService.generateToken(userDetails));
     }
 
-    public void createUser(CreateUserDto dto) {
+    @Override
+    public String createUser(CreateUserDto dto) {
 
         if (dto.nome().trim().isEmpty()) {
             throw new CampoObrigatorioException();
@@ -95,6 +97,35 @@ public class UserServiceImpl implements UserService {
                 .build();
 
         usuarioRepository.save(newUsuarios);
+
+        return "Usuario criado com sucesso!";
+    }
+
+    public String excluirUser(Integer id){
+        Usuario objeto = findById(id);
+        usuarioRepository.delete(objeto);
+
+        return "Excluido com sucesso!";
+    }
+
+    public String atualizarUser(UsuarioDTO usuarioDTO){
+        if(usuarioDTO == null) {
+            throw new RuntimeException("Objeto não informado!");
+        }
+
+        Usuario objeto = findById(usuarioDTO.id());
+        modelMapper.map(usuarioDTO, objeto);
+        usuarioRepository.save(objeto);
+
+        return "Usuario atualizado com sucesso!";
+    }
+
+    public Usuario findById(Integer id) {
+        return usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Nenhum registro encontrado."));
+    }
+
+    public List<Usuario> findAll(){
+        return usuarioRepository.findAll();
     }
 
     @Override

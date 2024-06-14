@@ -6,13 +6,22 @@ import br.com.template.model.dto.RecoveryJwtTokenDto;
 import br.com.template.model.dto.UsuarioDTO;
 import br.com.template.model.entity.Usuario;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
 
     RecoveryJwtTokenDto authenticateUser(LoginRequestDTO loginRequestDTO);
 
-    void createUser(CreateUserDto createUserDto) ;
+    String createUser(CreateUserDto createUserDto) ;
+
+    String excluirUser(Integer id);
+
+    String atualizarUser(UsuarioDTO usuarioDTO);
+
+    Usuario findById(Integer id);
+
+    List<Usuario> findAll();
 
     Optional<Usuario> obterPorEmail(String email);
 
