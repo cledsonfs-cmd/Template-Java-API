@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
                 .nome(dto.nome())
                 .idStatus(dto.idstatus())
                 .password(securityConfiguration.passwordEncoder().encode(dto.password()))
-                .roles(List.of(Role.builder().name(dto.role()).build()))
+                .role(Role.builder().name(dto.role()).build())
                 .build();
 
         usuarioRepository.save(newUsuarios);

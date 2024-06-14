@@ -1,4 +1,4 @@
-package test.unitario.service;
+package br.com.template.service;
 
 import org.junit.jupiter.api.Test;
 

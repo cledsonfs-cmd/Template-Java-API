@@ -1,7 +1,9 @@
-package test.unitario.controller;
+package br.com.template.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class UserControllerTest {
 

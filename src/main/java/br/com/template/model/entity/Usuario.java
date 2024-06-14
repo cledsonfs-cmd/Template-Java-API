@@ -29,11 +29,8 @@ public class Usuario {
     @Column
     private Integer idStatus;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinTable(name="users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name="role_id"))
-    private List<Role> roles;
-
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    private Role role;
 
 }
