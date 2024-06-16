@@ -1,16 +1,16 @@
-package integracao.swagger;
+package br.com.template.integracao.swagger;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertTrue;
 
+import br.com.template.integracao.config.TestConfigs;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import br.com.template.TemplateApplication;
-import integracao.config.TestConfigs;
 import testContainers.AbstractIntegrationTest;
 
-@SpringBootTest(classes = TemplateApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+//@SpringBootTest(classes = TemplateApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class SwaggerIntegrationTest extends AbstractIntegrationTest {
 
      @Test

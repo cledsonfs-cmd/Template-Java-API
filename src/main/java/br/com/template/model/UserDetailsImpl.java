@@ -2,7 +2,7 @@ package br.com.template.model;
 
 import br.com.template.model.entity.Role;
 import br.com.template.model.entity.Usuario;
-import lombok.Getter;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Getter
+@Data
 public class UserDetailsImpl implements UserDetails {
 
     private Usuario usuario; // Classe de usuário que criamos anteriormente
