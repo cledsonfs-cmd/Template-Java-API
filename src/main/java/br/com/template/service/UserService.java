@@ -7,7 +7,6 @@ import br.com.template.model.dto.UsuarioDTO;
 import br.com.template.model.entity.Usuario;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserService {
 
@@ -15,15 +14,13 @@ public interface UserService {
 
     String createUser(CreateUserDto createUserDto) ;
 
-    String excluirUser(Integer id);
-
     String atualizarUser(UsuarioDTO usuarioDTO);
 
     Usuario findById(Integer id);
 
     List<Usuario> findAll();
 
-    Optional<Usuario> obterPorEmail(String email);
+    Usuario obterPorEmail(String email);
 
     String ativar(UsuarioDTO dto);
 

@@ -26,7 +26,8 @@ public class UsuarioControllerAdvice {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(CampoObrigatorioException.class)
     public ErrorDTO handleModuloNotFound(CampoObrigatorioException campoObrigatorioException){
-        return new ErrorDTO(HttpStatus.NOT_FOUND.value(),"Campo obrigatorio não informado.",LocalDateTime.now());
+        campoObrigatorioException.initCause(new Throwable("Campo obrigatorio não informado."));
+        return new ErrorDTO(HttpStatus.NOT_FOUND.value(),campoObrigatorioException.getMessage(),LocalDateTime.now());
     }
 
     @ResponseBody

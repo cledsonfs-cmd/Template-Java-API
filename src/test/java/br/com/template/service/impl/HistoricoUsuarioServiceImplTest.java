@@ -7,6 +7,7 @@ import br.com.template.model.entity.Usuario;
 import br.com.template.model.entity.UsuarioHistorico;
 import br.com.template.repository.HistoricoUsuarioRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -55,8 +56,9 @@ class HistoricoUsuarioServiceImplTest {
                 .build();
     }
 
+    @DisplayName("JUnit test salvar um registro")
     @Test
-    void salvar() {
+    void testSalvarUmRegistro() {
         String expectMessage = "Salvo com sucesso!";
         when(mockHistoricoUsuarioRepository.save(any(UsuarioHistorico.class))).thenReturn(mockUsuarioHistorico);
 
@@ -65,8 +67,9 @@ class HistoricoUsuarioServiceImplTest {
         assertEquals(expectMessage, retorno);
     }
 
+    @DisplayName("JUnit test Buscar um registro por id")
     @Test
-    void buscarPorId() {
+    void testBuscarPorId() {
         when(mockHistoricoUsuarioRepository.findById(anyInt())).thenReturn(Optional.ofNullable(mockUsuarioHistorico));
 
         UsuarioHistorico retorno = injectHistoricoUsuarioServiceImpl.buscarPorId(1000);
@@ -75,8 +78,9 @@ class HistoricoUsuarioServiceImplTest {
         assertEquals(1000, retorno.getId());
     }
 
+    @DisplayName("JUnit test obter uma lista de registros")
     @Test
-    void buscarTodos() {
+    void testBuscarTodos() {
         List<UsuarioHistorico> usuarios = new ArrayList<>();
         usuarios.add(mockUsuarioHistorico);
         usuarios.add(mockUsuarioHistorico);
@@ -89,8 +93,9 @@ class HistoricoUsuarioServiceImplTest {
         assertEquals(3, retorno.size());
     }
 
+    @DisplayName("JUnit test excluir um registro")
     @Test
-    void excluir() {
+    void testExcluir() {
         String expectMessage = "Excluido com sucesso!";
         when(mockHistoricoUsuarioRepository.findById(anyInt())).thenReturn(Optional.ofNullable(mockUsuarioHistorico));
 
@@ -99,8 +104,9 @@ class HistoricoUsuarioServiceImplTest {
         assertEquals(expectMessage, retorno);
     }
 
+    @DisplayName("JUnit test atualizar um registro")
     @Test
-    void atualizar() {
+    void testAtualizar() {
         String expectMessage = "Atualizado com sucesso!";
         when(mockHistoricoUsuarioRepository.save(any(UsuarioHistorico.class))).thenReturn(mockUsuarioHistorico);
         when(mockHistoricoUsuarioRepository.findById(anyInt())).thenReturn(Optional.ofNullable(mockUsuarioHistorico));
@@ -110,8 +116,9 @@ class HistoricoUsuarioServiceImplTest {
         assertEquals(expectMessage, retorno);
     }
 
+    @DisplayName("JUnit test obter uma lista de registros por um usuario fornecido")
     @Test
-    void buscarPorUsuario() {
+    void testBuscarPorUsuario() {
         List<UsuarioHistorico> usuarios = new ArrayList<>();
         usuarios.add(mockUsuarioHistorico);
         usuarios.add(mockUsuarioHistorico);

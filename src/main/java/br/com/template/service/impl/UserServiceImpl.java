@@ -14,9 +14,10 @@ import br.com.template.security.SecurityConfiguration;
 import br.com.template.security.service.JwtTokenService;
 import br.com.template.service.UserService;
 import br.com.template.statemachine.service.StateMachineEventService;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+//import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -45,18 +46,26 @@ public class UserServiceImpl implements UserService {
 
     // Método responsável por autenticar um usuário e retornar um token JWT
     @Override
-    public RecoveryJwtTokenDto authenticateUser(LoginRequestDTO dto) {
+    public RecoveryJwtTokenDto authenticateUser(@NotNull LoginRequestDTO dto) {
         if (dto.email().isEmpty()) {
-            throw new CampoObrigatorioException();
+            throw new RuntimeException("Campo e-mail obrigatório!");
         }
 
         if (dto.password().isEmpty()) {
-            throw new CampoObrigatorioException();
+            throw new RuntimeException("Campo senha obrigatório!");
         }
 
-        Optional<Usuario> existe = obterPorEmail(dto.email());
-        if (!existe.isPresent()) {
-            throw new UsuarioNotFoundException();
+        try {
+            Usuario existe = obterPorEmail(dto.email());
+
+            if (!existe.getPassword().equals(dto.password())) {
+                throw new RuntimeException("Senha incorreta!");
+            }
+        } catch (RuntimeException e) {
+            if (e.getMessage().equals("Nenhum registro encontrado.")) {
+                throw new RuntimeException("Campo e-mail inválido!");
+            }
+            throw e;
         }
 
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(dto.email(), dto.password());
@@ -66,7 +75,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String createUser(CreateUserDto dto) {
+    public String createUser(@NotNull CreateUserDto dto) {
 
         if (dto.nome().trim().isEmpty()) {
             throw new CampoObrigatorioException();
@@ -84,7 +93,9 @@ public class UserServiceImpl implements UserService {
             throw new SenhaException();
         }
 
-        if (obterPorEmail(dto.email()).isPresent()) {
+        Optional<Usuario> usuarioExiste = usuarioRepository.findByEmail(dto.email());
+
+        if (!usuarioExiste.isEmpty()) {
             throw new InputMismatchException("Já existe um usuario cadastro com o email: " + dto.email());
         }
 
@@ -101,15 +112,9 @@ public class UserServiceImpl implements UserService {
         return "Usuario criado com sucesso!";
     }
 
-    public String excluirUser(Integer id){
-        Usuario objeto = findById(id);
-        usuarioRepository.delete(objeto);
-
-        return "Excluido com sucesso!";
-    }
-
-    public String atualizarUser(UsuarioDTO usuarioDTO){
-        if(usuarioDTO == null) {
+    @Override
+    public String atualizarUser(UsuarioDTO usuarioDTO) {
+        if (usuarioDTO == null) {
             throw new RuntimeException("Objeto não informado!");
         }
 
@@ -120,17 +125,19 @@ public class UserServiceImpl implements UserService {
         return "Usuario atualizado com sucesso!";
     }
 
+    @Override
     public Usuario findById(Integer id) {
         return usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Nenhum registro encontrado."));
     }
 
-    public List<Usuario> findAll(){
+    @Override
+    public List<Usuario> findAll() {
         return usuarioRepository.findAll();
     }
 
     @Override
-    public Optional<Usuario> obterPorEmail(String email) {
-        return usuarioRepository.findByEmail(email);
+    public Usuario obterPorEmail(String email) {
+        return usuarioRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Nenhum registro encontrado."));
     }
 
     @Override

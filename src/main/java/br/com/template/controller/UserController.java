@@ -5,19 +5,23 @@ import br.com.template.model.dto.*;
 import br.com.template.model.entity.Usuario;
 import br.com.template.model.entity.UsuarioHistorico;
 import br.com.template.service.UserService;
+import br.com.template.service.impl.UserServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+
 @RestController
 @RequestMapping("/users")
+@RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    private UserService userService;
-
+    private final UserService userService;
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> authenticateUser(@RequestBody LoginRequestDTO loginRequestDTO) {
@@ -26,11 +30,41 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createUser(@RequestBody CreateUserDto createUserDto) {
-        userService.createUser(createUserDto);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<String> createUser(@RequestBody CreateUserDto createUserDto) {
+        return ResponseEntity.ok().body(userService.createUser(createUserDto));
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<String> update(@RequestBody UsuarioDTO dto){
+        return new ResponseEntity<>(userService.atualizarUser(dto), HttpStatus.OK);
+    }
+
+    @PutMapping("/ativar")
+    public ResponseEntity<String> ativar(@RequestBody UsuarioDTO dto){
+        return new ResponseEntity<>(userService.ativar(dto), HttpStatus.OK);
+    }
+
+    @PutMapping("/suspender")
+    public ResponseEntity<String> suspender(@RequestBody UsuarioDTO dto){
+        return new ResponseEntity<>(userService.suspender(dto), HttpStatus.OK);
+    }
+
+    @PutMapping("/inativar")
+    public ResponseEntity<String> inativar(@RequestBody UsuarioDTO dto){
+        return new ResponseEntity<>(userService.inativar(dto), HttpStatus.OK);
+    }
+
+    @PutMapping("/excluir")
+    public ResponseEntity<String> excluir(@RequestBody UsuarioDTO dto){
+        return new ResponseEntity<>(userService.excluir(dto), HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Usuario>> all(){
+        return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
+    }
+
+    /*TESTES*/
     @GetMapping("/test")
     public ResponseEntity<String> getAuthenticationTest() {
         return new ResponseEntity<>("Autenticado com sucesso", HttpStatus.OK);
@@ -45,25 +79,4 @@ public class UserController {
     public ResponseEntity<String> getAdminAuthenticationTest() {
         return new ResponseEntity<>("Administrador autenticado com sucesso", HttpStatus.OK);
     }
-
-    @PostMapping("/ativar")
-    public ResponseEntity<String> ativar(@RequestBody UsuarioDTO dto){
-        return new ResponseEntity<>(userService.ativar(dto), HttpStatus.OK);
-    }
-
-    @PostMapping("/suspender")
-    public ResponseEntity<String> suspender(@RequestBody UsuarioDTO dto){
-        return new ResponseEntity<>(userService.suspender(dto), HttpStatus.OK);
-    }
-
-    @PostMapping("/inativar")
-    public ResponseEntity<String> inativar(@RequestBody UsuarioDTO dto){
-        return new ResponseEntity<>(userService.inativar(dto), HttpStatus.OK);
-    }
-
-    @PostMapping("/excluir")
-    public ResponseEntity<String> excluir(@RequestBody UsuarioDTO dto){
-        return new ResponseEntity<>(userService.excluir(dto), HttpStatus.OK);
-    }
-
 }
