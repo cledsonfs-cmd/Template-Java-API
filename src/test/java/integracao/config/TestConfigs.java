@@ -1,4 +1,4 @@
-package br.com.template.config;
+package integracao.config;
 
 public class TestConfigs {
 
