@@ -21,6 +21,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -170,9 +171,10 @@ class UserServiceImplTest {
     @DisplayName("JUnit test autenticar usuario com senha incorreta")
     @Test
     void testAuthenticateSenhaIncorreta() {
-        String expectMessage = "Senha incorreta!";
+        String expectMessage = "Usuário não autenticado!";
         mockLoginRequestDTO = new LoginRequestDTO("andre@email.com", "xxxxx");
         when(mockUsuarioRepository.findByEmail(any())).thenReturn(Optional.of(mockUsuario));
+        when(mockAuthenticationManager.authenticate(any())).thenReturn(null);
 
         RuntimeException exception = assertThrows(RuntimeException.class, () ->  injectUserService.authenticateUser(mockLoginRequestDTO));
 
@@ -195,7 +197,7 @@ class UserServiceImplTest {
     @Test
     void testAtualizarUser() {
         String expectMessage = "Usuario atualizado com sucesso!";
-        when(mockUsuarioRepository.findById(anyInt())).thenReturn(Optional.ofNullable(mockUsuario));
+        when(mockUsuarioRepository.findByEmail(anyString())).thenReturn(Optional.ofNullable(mockUsuario));
 
         String retorno = injectUserService.atualizarUser(mockUsuarioDTO);
 
@@ -272,7 +274,7 @@ class UserServiceImplTest {
     @DisplayName("JUnit test excluir um usuario existente utilizando a stateMachine")
     @Test
     void testExcluir() {
-        String expectMessage = "Usuario Excluído com sucesso!";
+        String expectMessage = "Usuario Excluido com sucesso!";
 
         String retorno = injectUserService.excluir(mockUsuarioDTO);
 

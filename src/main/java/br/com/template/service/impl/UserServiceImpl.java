@@ -14,6 +14,7 @@ import br.com.template.security.SecurityConfiguration;
 import br.com.template.security.service.JwtTokenService;
 import br.com.template.service.UserService;
 import br.com.template.statemachine.service.StateMachineEventService;
+import ch.qos.logback.core.html.IThrowableRenderer;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 //import org.jetbrains.annotations.NotNull;
@@ -42,7 +43,7 @@ public class UserServiceImpl implements UserService {
 
     private final StateMachineEventService stateMachineEventService;
 
-    private ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper = new ModelMapper();
 
     // Método responsável por autenticar um usuário e retornar um token JWT
     @Override
@@ -57,19 +58,15 @@ public class UserServiceImpl implements UserService {
 
         try {
             Usuario existe = obterPorEmail(dto.email());
-
-            if (!existe.getPassword().equals(dto.password())) {
-                throw new RuntimeException("Senha incorreta!");
-            }
         } catch (RuntimeException e) {
-            if (e.getMessage().equals("Nenhum registro encontrado.")) {
-                throw new RuntimeException("Campo e-mail inválido!");
-            }
-            throw e;
+            throw new RuntimeException("Campo e-mail inválido!");
         }
 
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(dto.email(), dto.password());
         Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+        if(authentication ==null){
+            throw new RuntimeException("Usuário não autenticado!");
+        }
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         return new RecoveryJwtTokenDto(jwtTokenService.generateToken(userDetails));
     }
@@ -118,7 +115,7 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Objeto não informado!");
         }
 
-        Usuario objeto = findById(usuarioDTO.id());
+        Usuario objeto = usuarioRepository.findByEmail(usuarioDTO.email()).get();
         modelMapper.map(usuarioDTO, objeto);
         usuarioRepository.save(objeto);
 
@@ -142,12 +139,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String ativar(UsuarioDTO dto) {
-        Usuario usuario = modelMapper.map(dto, Usuario.class);
-
+        Usuario usuario = Usuario.builder()
+                .id(dto.id())
+                .email(dto.email())
+                .idStatus(dto.idstatus())
+                .build();
         UsuarioEvents events = UsuarioEvents.ATIVAR;
 
         events.setUsuarioHistorico(UsuarioHistorico.builder()
-                .descricao("Criação de usuário.")
+                .descricao("Ativação de usuário.")
                 .build()
         );
 
@@ -161,7 +161,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String suspender(UsuarioDTO dto) {
-        Usuario usuario = modelMapper.map(dto, Usuario.class);
+        Usuario usuario = Usuario.builder()
+                .id(dto.id())
+                .email(dto.email())
+                .idStatus(dto.idstatus())
+                .build();
         UsuarioEvents events = UsuarioEvents.SUSPENDER;
 
         events.setUsuarioHistorico(UsuarioHistorico.builder().descricao("Suspensão de usuário.").build());
@@ -173,7 +177,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String inativar(UsuarioDTO dto) {
-        Usuario usuario = modelMapper.map(dto, Usuario.class);
+        Usuario usuario = Usuario.builder()
+                .id(dto.id())
+                .email(dto.email())
+                .idStatus(dto.idstatus())
+                .build();
         UsuarioEvents events = UsuarioEvents.INATIVAR;
 
         events.setUsuarioHistorico(UsuarioHistorico.builder()
@@ -188,7 +196,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String excluir(UsuarioDTO dto) {
-        Usuario usuario = modelMapper.map(dto, Usuario.class);
+        Usuario usuario = Usuario.builder()
+                .id(dto.id())
+                .email(dto.email())
+                .idStatus(dto.idstatus())
+                .build();
         UsuarioEvents events = UsuarioEvents.EXCLUIR;
 
         events.setUsuarioHistorico(UsuarioHistorico.builder()
@@ -198,6 +210,6 @@ public class UserServiceImpl implements UserService {
 
         MessageHeaderAccessor messageHeaderAccessor = new MessageHeaderAccessor();
         stateMachineEventService.sendEvent(usuario, events, messageHeaderAccessor);
-        return "Usuario Excluído com sucesso!";
+        return "Usuario Excluido com sucesso!";
     }
 }

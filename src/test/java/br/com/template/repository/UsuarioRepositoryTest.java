@@ -56,8 +56,8 @@ class UsuarioRepositoryTest extends AbstractIntegrationTest {
     void findAll() {
         repository.save(usuario);
         repository.save(Usuario.builder()
-                .email("paulo@email.com")
-                .nome("Paulo de Souza")
+                .email("paulo2@email.com")
+                .nome("Paulo2 de Souza")
                 .idStatus(UsuarioStates.INICIO.getId())
                 .password("paulo987654")
                 .role(Role.builder()
@@ -68,7 +68,7 @@ class UsuarioRepositoryTest extends AbstractIntegrationTest {
         List<Usuario> usuarios = repository.findAll();
 
         assertNotNull(usuarios);
-        assertEquals(2, usuarios.size());
+        assertEquals(3, usuarios.size());
     }
 
     @DisplayName("JUnit test recuperar um usuario por um ID fornecido")
@@ -76,8 +76,8 @@ class UsuarioRepositoryTest extends AbstractIntegrationTest {
     void findID() {
         Usuario usuarioSavad = repository.save(usuario);
         repository.save(Usuario.builder()
-                .email("paulo@email.com")
-                .nome("Paulo de Souza")
+                .email("paulo2@email.com")
+                .nome("Paulo2 de Souza")
                 .idStatus(UsuarioStates.INICIO.getId())
                 .password("paulo987654")
                 .role(Role.builder()
@@ -133,8 +133,8 @@ class UsuarioRepositoryTest extends AbstractIntegrationTest {
     void findByEmail() {
         Usuario usuarioSavad = repository.save(usuario);
         repository.save(Usuario.builder()
-                .email("paulo@email.com")
-                .nome("Paulo de Souza")
+                .email("paulo2@email.com")
+                .nome("Paulo2 de Souza")
                 .idStatus(UsuarioStates.INICIO.getId())
                 .password("paulo987654")
                 .role(Role.builder()

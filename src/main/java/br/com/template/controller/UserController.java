@@ -6,6 +6,7 @@ import br.com.template.model.entity.Usuario;
 import br.com.template.model.entity.UsuarioHistorico;
 import br.com.template.service.UserService;
 import br.com.template.service.impl.UserServiceImpl;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,21 @@ public class UserController {
         return new ResponseEntity<>(userService.atualizarUser(dto), HttpStatus.OK);
     }
 
+    @GetMapping("/email/{email}")
+    public ResponseEntity<Usuario> getEmail(@PathVariable("email") String valor){
+        return new ResponseEntity<>(userService.obterPorEmail(valor), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Usuario> getId(@PathVariable("id") Integer valor){
+        return new ResponseEntity<>(userService.findById(valor), HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Usuario>> all(){
+        return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
+    }
+
     @PutMapping("/ativar")
     public ResponseEntity<String> ativar(@RequestBody UsuarioDTO dto){
         return new ResponseEntity<>(userService.ativar(dto), HttpStatus.OK);
@@ -57,11 +73,6 @@ public class UserController {
     @PutMapping("/excluir")
     public ResponseEntity<String> excluir(@RequestBody UsuarioDTO dto){
         return new ResponseEntity<>(userService.excluir(dto), HttpStatus.OK);
-    }
-
-    @GetMapping("/all")
-    public ResponseEntity<List<Usuario>> all(){
-        return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
 
     /*TESTES*/
