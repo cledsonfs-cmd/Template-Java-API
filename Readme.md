@@ -80,7 +80,7 @@ By default, the API will be available at [http://localhost:8080/api](http://loca
 ## Docker
 
 ```bash
-$ MAVEN_PROFILE=dev docker compose up -d
+$ MAVEN_PROFILE=prod docker compose up -d
 ```
 ## Stay in touch
 

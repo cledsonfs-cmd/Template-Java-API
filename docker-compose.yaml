@@ -9,8 +9,8 @@ networks:
 
 services:
   java-api:
-    container_name: "api-java"
-    image: templates.local:5000/backend/java-api
+    container_name: "java-api"
+    image: templates.local:8080/java-api
     networks:
       - template-net
       - db-postgresql-net

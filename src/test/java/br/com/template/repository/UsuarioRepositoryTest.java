@@ -68,7 +68,7 @@ class UsuarioRepositoryTest extends AbstractIntegrationTest {
         List<Usuario> usuarios = repository.findAll();
 
         assertNotNull(usuarios);
-        assertEquals(2, usuarios.size());
+        assertEquals(3, usuarios.size());
     }
 
     @DisplayName("JUnit test recuperar um usuario por um ID fornecido")
