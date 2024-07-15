@@ -1,5 +1,11 @@
 package br.com.template.model.dto;
 
 public record LoginResponseDTO(
-        Integer id, RecoveryJwtTokenDto token) {
+        Integer uid,
+        String email,
+        String nome,
+        RecoveryJwtTokenDto token,
+        String provedor,
+        String imageUrl
+) {
 }

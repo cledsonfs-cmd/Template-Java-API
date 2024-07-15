@@ -106,7 +106,7 @@ public class UserControllerIntegrationTest extends AbstractIntegrationTest {
         Token = found.token();
 
         assertNotNull(found);
-        assertTrue(found.id() > 0);
+        assertTrue(found.uid() > 0);
         assertNotNull(found.token());
 
     }
