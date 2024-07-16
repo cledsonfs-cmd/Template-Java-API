@@ -12,7 +12,7 @@ public interface UserService {
 
     RecoveryJwtTokenDto authenticateUser(LoginRequestDTO loginRequestDTO);
 
-    String createUser(CreateUserDto createUserDto) ;
+    Usuario createUser(CreateUserDto createUserDto) ;
 
     String atualizarUser(UsuarioDTO usuarioDTO);
 

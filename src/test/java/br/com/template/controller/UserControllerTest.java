@@ -100,7 +100,7 @@ class UserControllerTest {
     @Test
     void createUser() throws Exception {
         String expectMessage = "Usuario criado com sucesso!";
-        given(mockUserService.createUser(any(CreateUserDto.class))).willReturn("Usuario criado com sucesso!");
+        given(mockUserService.createUser(any(CreateUserDto.class))).willReturn(new Usuario());
 
         ResultActions response = mockMvc.perform(post("/users")
                 .contentType(MediaType.APPLICATION_JSON)

@@ -33,8 +33,10 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createUser(@RequestBody CreateUserDto createUserDto) {
-        return ResponseEntity.ok().body(userService.createUser(createUserDto));
+    public ResponseEntity<LoginResponseDTO> createUser(@RequestBody CreateUserDto createUserDto) {
+        Usuario usuario = userService.createUser(createUserDto);
+        RecoveryJwtTokenDto token = userService.authenticateUser(new LoginRequestDTO(createUserDto.email(), createUserDto.password()));
+        return new ResponseEntity<>(new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token,"",""), HttpStatus.OK);
     }
 
     @PutMapping("/update")

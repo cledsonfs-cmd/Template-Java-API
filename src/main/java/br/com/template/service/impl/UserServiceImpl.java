@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String createUser(@NotNull CreateUserDto dto) {
+    public Usuario createUser(@NotNull CreateUserDto dto) {
 
         if (dto.nome().trim().isEmpty()) {
             throw new CampoObrigatorioException();
@@ -104,9 +104,7 @@ public class UserServiceImpl implements UserService {
                 .role(Role.builder().name(dto.role()).build())
                 .build();
 
-        usuarioRepository.save(newUsuarios);
-
-        return "Usuario criado com sucesso!";
+        return usuarioRepository.save(newUsuarios);
     }
 
     @Override

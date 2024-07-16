@@ -188,9 +188,9 @@ class UserServiceImplTest {
         when(mockUsuarioRepository.findByEmail(any())).thenReturn(Optional.empty());
         when(mockSecurityConfiguration.passwordEncoder()).thenReturn(new BCryptPasswordEncoder());
 
-        String retorno = injectUserService.createUser(mockCreateUserDTO);
+        Usuario retorno = injectUserService.createUser(mockCreateUserDTO);
 
-        assertEquals(expectMessage, retorno);
+        assertNotNull(retorno);
     }
 
     @DisplayName("JUnit test atualizar um usuario existente")
