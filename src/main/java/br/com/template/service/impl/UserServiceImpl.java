@@ -3,6 +3,7 @@ package br.com.template.service.impl;
 import br.com.template.enums.UsuarioEvents;
 import br.com.template.exception.CampoObrigatorioException;
 import br.com.template.exception.SenhaException;
+import br.com.template.exception.UsuarioAutenticadoException;
 import br.com.template.exception.UsuarioNotFoundException;
 import br.com.template.model.UserDetailsImpl;
 import br.com.template.model.dto.*;
@@ -53,19 +54,19 @@ public class UserServiceImpl implements UserService {
         }
 
         if (dto.password().isEmpty()) {
-            throw new RuntimeException("Campo senha obrigatório!");
+            throw new CampoObrigatorioException();
         }
 
         try {
-            Usuario existe = obterPorEmail(dto.email());
+            obterPorEmail(dto.email());
         } catch (RuntimeException e) {
-            throw new RuntimeException("Campo e-mail inválido!");
+            throw new UsuarioNotFoundException();
         }
 
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(dto.email(), dto.password());
         Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         if(authentication ==null){
-            throw new RuntimeException("Usuário não autenticado!");
+            throw new UsuarioAutenticadoException();
         }
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         return new RecoveryJwtTokenDto(jwtTokenService.generateToken(userDetails));

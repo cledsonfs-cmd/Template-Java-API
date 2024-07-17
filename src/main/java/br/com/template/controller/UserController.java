@@ -26,22 +26,17 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> authenticateUser(@RequestBody LoginRequestDTO loginRequestDTO) {
+    public LoginResponseDTO authenticateUser(@RequestBody LoginRequestDTO loginRequestDTO) {
         RecoveryJwtTokenDto token = userService.authenticateUser(loginRequestDTO);
         Usuario usuario = userService.obterPorEmail(loginRequestDTO.email());
-        return new ResponseEntity<>(new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token,"",""), HttpStatus.OK);
+        return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token,"","");
     }
 
     @PostMapping
     public LoginResponseDTO createUser(@RequestBody CreateUserDto createUserDto) {
-       // try {
-            Usuario usuario = userService.createUser(createUserDto);
-            RecoveryJwtTokenDto token = userService.authenticateUser(new LoginRequestDTO(createUserDto.email(), createUserDto.password()));
-            return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token, "", "");
-//            return ResponseEntity.ok().body(new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token, "", ""));
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getCause());
-//        }
+        Usuario usuario = userService.createUser(createUserDto);
+        RecoveryJwtTokenDto token = userService.authenticateUser(new LoginRequestDTO(createUserDto.email(), createUserDto.password()));
+        return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token, "", "");
     }
 
     @PutMapping("/update")
