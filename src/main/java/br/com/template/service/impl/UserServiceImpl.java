@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public RecoveryJwtTokenDto authenticateUser(@NotNull LoginRequestDTO dto) {
         if (dto.email().isEmpty()) {
-            throw new RuntimeException("Campo e-mail obrigatório!");
+            throw new CampoObrigatorioException();
         }
 
         if (dto.password().isEmpty()) {

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ControllerAdvice(basePackages = "br.com.template.view.controller")
+@ControllerAdvice(basePackages = "br.com.template.controller")
 public class UsuarioControllerAdvice {
 
     @ResponseBody
@@ -26,8 +26,7 @@ public class UsuarioControllerAdvice {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(CampoObrigatorioException.class)
     public ErrorDTO handleModuloNotFound(CampoObrigatorioException campoObrigatorioException){
-        campoObrigatorioException.initCause(new Throwable("Campo obrigatorio não informado."));
-        return new ErrorDTO(HttpStatus.NOT_FOUND.value(),campoObrigatorioException.getMessage(),LocalDateTime.now());
+        return new ErrorDTO(HttpStatus.NOT_FOUND.value(),"Campo obrigatorio não informado.",LocalDateTime.now());
     }
 
     @ResponseBody

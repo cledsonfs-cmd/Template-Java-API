@@ -4,6 +4,6 @@ import java.time.LocalDateTime;
 
 public record ErrorDTO (
         int status,
-        String errors,
+        String error,
         LocalDateTime timestamp){
 }

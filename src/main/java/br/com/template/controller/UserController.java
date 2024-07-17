@@ -33,10 +33,15 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<LoginResponseDTO> createUser(@RequestBody CreateUserDto createUserDto) {
-        Usuario usuario = userService.createUser(createUserDto);
-        RecoveryJwtTokenDto token = userService.authenticateUser(new LoginRequestDTO(createUserDto.email(), createUserDto.password()));
-        return new ResponseEntity<>(new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token,"",""), HttpStatus.OK);
+    public LoginResponseDTO createUser(@RequestBody CreateUserDto createUserDto) {
+       // try {
+            Usuario usuario = userService.createUser(createUserDto);
+            RecoveryJwtTokenDto token = userService.authenticateUser(new LoginRequestDTO(createUserDto.email(), createUserDto.password()));
+            return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token, "", "");
+//            return ResponseEntity.ok().body(new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token, "", ""));
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getCause());
+//        }
     }
 
     @PutMapping("/update")
