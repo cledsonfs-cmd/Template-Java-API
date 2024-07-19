@@ -29,14 +29,14 @@ public class UserController {
     public LoginResponseDTO authenticateUser(@RequestBody LoginRequestDTO loginRequestDTO) {
         RecoveryJwtTokenDto token = userService.authenticateUser(loginRequestDTO);
         Usuario usuario = userService.obterPorEmail(loginRequestDTO.email());
-        return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token,"","");
+        return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token,"","",usuario.getRole().getName().name());
     }
 
     @PostMapping
     public LoginResponseDTO createUser(@RequestBody CreateUserDto createUserDto) {
         Usuario usuario = userService.createUser(createUserDto);
         RecoveryJwtTokenDto token = userService.authenticateUser(new LoginRequestDTO(createUserDto.email(), createUserDto.password()));
-        return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token, "", "");
+        return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token, "", "",usuario.getRole().getName().name());
     }
 
     @PutMapping("/update")

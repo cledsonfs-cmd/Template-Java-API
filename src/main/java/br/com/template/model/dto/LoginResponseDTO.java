@@ -6,6 +6,7 @@ public record LoginResponseDTO(
         String nome,
         RecoveryJwtTokenDto token,
         String provedor,
-        String imageUrl
+        String imageUrl,
+        String role
 ) {
 }
