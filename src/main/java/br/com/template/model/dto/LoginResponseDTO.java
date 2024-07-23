@@ -1,5 +1,7 @@
 package br.com.template.model.dto;
 
+import br.com.template.model.entity.Role;
+
 public record LoginResponseDTO(
         Integer uid,
         String email,
@@ -7,6 +9,6 @@ public record LoginResponseDTO(
         RecoveryJwtTokenDto token,
         String provedor,
         String imageUrl,
-        String role
+        Role role
 ) {
 }

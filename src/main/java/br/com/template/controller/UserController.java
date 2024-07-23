@@ -1,19 +1,16 @@
 package br.com.template.controller;
 
-import br.com.template.enums.UsuarioEvents;
 import br.com.template.model.dto.*;
+import br.com.template.model.entity.Role;
 import br.com.template.model.entity.Usuario;
-import br.com.template.model.entity.UsuarioHistorico;
 import br.com.template.service.UserService;
-import br.com.template.service.impl.UserServiceImpl;
-import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -29,14 +26,14 @@ public class UserController {
     public LoginResponseDTO authenticateUser(@RequestBody LoginRequestDTO loginRequestDTO) {
         RecoveryJwtTokenDto token = userService.authenticateUser(loginRequestDTO);
         Usuario usuario = userService.obterPorEmail(loginRequestDTO.email());
-        return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token,"","",usuario.getRole().getName().name());
+        return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token,"","",usuario.getRole());
     }
 
     @PostMapping
     public LoginResponseDTO createUser(@RequestBody CreateUserDto createUserDto) {
         Usuario usuario = userService.createUser(createUserDto);
         RecoveryJwtTokenDto token = userService.authenticateUser(new LoginRequestDTO(createUserDto.email(), createUserDto.password()));
-        return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token, "", "",usuario.getRole().getName().name());
+        return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token, "", "",usuario.getRole());
     }
 
     @PutMapping("/update")
@@ -55,8 +52,18 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Usuario>> all(){
-        return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<LoginResponseDTO>> all(){
+        List<LoginResponseDTO> usuarioDTOS = new ArrayList<>();
+        for (Usuario usuario:userService.findAll()){
+            usuarioDTOS.add(new LoginResponseDTO(usuario.getId(),
+                    usuario.getEmail(),
+                    usuario.getNome(),
+                    null,
+                    "",
+                    "",
+                    usuario.getRole()));
+        }
+        return new ResponseEntity<>(usuarioDTOS, HttpStatus.OK);
     }
 
     @PutMapping("/ativar")
