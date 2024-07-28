@@ -29,6 +29,11 @@ public class UserController {
         return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token,"","",usuario.getRole());
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(){
+        return new ResponseEntity<>("Logout efetuado com sucesso!", HttpStatus.OK);
+    }
+
     @PostMapping
     public LoginResponseDTO createUser(@RequestBody CreateUserDto createUserDto) {
         Usuario usuario = userService.createUser(createUserDto);
