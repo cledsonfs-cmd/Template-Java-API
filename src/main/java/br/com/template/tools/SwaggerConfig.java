@@ -1,6 +1,7 @@
 package br.com.template.tools;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -16,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Configuration
-@OpenAPIDefinition()
+@OpenAPIDefinition(tags = {@Tag(name = "Auth"),@Tag(name = "User"),@Tag(name = "Testes")})
 public class SwaggerConfig {
     @Bean
     public OpenAPI defineOpenApi() {

@@ -1,11 +1,10 @@
 package br.com.template.controller;
 
 import br.com.template.model.dto.*;
-import br.com.template.model.entity.Role;
 import br.com.template.model.entity.Usuario;
 import br.com.template.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,28 +17,10 @@ import java.util.List;
 @RequestMapping("/users")
 @RequiredArgsConstructor
 @CrossOrigin("*")
+@Tag(name = "User")
 public class UserController {
 
     private final UserService userService;
-
-    @PostMapping("/login")
-    public LoginResponseDTO authenticateUser(@RequestBody LoginRequestDTO loginRequestDTO) {
-        RecoveryJwtTokenDto token = userService.authenticateUser(loginRequestDTO);
-        Usuario usuario = userService.obterPorEmail(loginRequestDTO.email());
-        return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token,"","",usuario.getRole());
-    }
-
-    @PostMapping("/logout")
-    public ResponseEntity<?> logout(){
-        return new ResponseEntity<>("Logout efetuado com sucesso!", HttpStatus.OK);
-    }
-
-    @PostMapping
-    public LoginResponseDTO createUser(@RequestBody CreateUserDto createUserDto) {
-        Usuario usuario = userService.createUser(createUserDto);
-        RecoveryJwtTokenDto token = userService.authenticateUser(new LoginRequestDTO(createUserDto.email(), createUserDto.password()));
-        return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token, "", "",usuario.getRole());
-    }
 
     @PutMapping("/update")
     public ResponseEntity<String> update(@RequestBody UsuarioDTO dto){
@@ -91,19 +72,4 @@ public class UserController {
         return new ResponseEntity<>(userService.excluir(dto), HttpStatus.OK);
     }
 
-    /*TESTES*/
-    @GetMapping("/test")
-    public ResponseEntity<String> getAuthenticationTest() {
-        return new ResponseEntity<>("Autenticado com sucesso", HttpStatus.OK);
-    }
-
-    @GetMapping("/test/customer")
-    public ResponseEntity<String> getCustomerAuthenticationTest() {
-        return new ResponseEntity<>("Cliente autenticado com sucesso", HttpStatus.OK);
-    }
-
-    @GetMapping("/test/administrator")
-    public ResponseEntity<String> getAdminAuthenticationTest() {
-        return new ResponseEntity<>("Administrador autenticado com sucesso", HttpStatus.OK);
-    }
 }

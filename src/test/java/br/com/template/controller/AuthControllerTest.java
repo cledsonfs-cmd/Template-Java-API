@@ -36,9 +36,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(controllers = UserController.class)//, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
+@WebMvcTest(controllers = AuthController.class)//, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 @Import(SecurityConfig.class)
-class UserControllerTest {
+class AuthControllerTest {
 
     @MockBean
     private UserServiceImpl mockUserService;
