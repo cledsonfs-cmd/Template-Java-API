@@ -27,8 +27,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
 
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED = {
-            "/users/login", //url que usaremos para fazer login
-            "/users",
+            "/api/login", //url que usaremos para fazer login
+            "/api/register",
     };
 
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_IGNORE = {
@@ -42,7 +42,9 @@ public class SecurityConfiguration {
 
     // Endpoints que requerem autenticação para serem acessados
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_REQUIRED = {
-            "/users/test",
+            "/api/refresh",
+            "/api/users",
+            "/api/logout",
             "/users/test/customer",
             "/users/test/administrator",
             "/users/update",

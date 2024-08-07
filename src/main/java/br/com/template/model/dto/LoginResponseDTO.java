@@ -3,7 +3,7 @@ package br.com.template.model.dto;
 import br.com.template.model.entity.Role;
 
 public record LoginResponseDTO(
-        Integer uid,
+        Integer uuid,
         String email,
         String nome,
         RecoveryJwtTokenDto token,

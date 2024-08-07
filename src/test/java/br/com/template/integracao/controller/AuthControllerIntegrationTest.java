@@ -106,7 +106,7 @@ public class AuthControllerIntegrationTest extends AbstractIntegrationTest {
         Token = found.token();
 
         assertNotNull(found);
-        assertTrue(found.uid() > 0);
+        assertTrue(found.uuid() > 0);
         assertNotNull(found.token());
 
     }

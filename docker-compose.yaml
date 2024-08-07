@@ -4,8 +4,7 @@ networks:
     driver: bridge
     name: template-net
   db-postgresql-net:
-    name: db-postgresql-net
-    driver: bridge
+    external: true
 
 services:
   java-api:

@@ -37,21 +37,6 @@ public class UserController {
         return new ResponseEntity<>(userService.findById(valor), HttpStatus.OK);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<LoginResponseDTO>> all(){
-        List<LoginResponseDTO> usuarioDTOS = new ArrayList<>();
-        for (Usuario usuario:userService.findAll()){
-            usuarioDTOS.add(new LoginResponseDTO(usuario.getId(),
-                    usuario.getEmail(),
-                    usuario.getNome(),
-                    null,
-                    "",
-                    "",
-                    usuario.getRole()));
-        }
-        return new ResponseEntity<>(usuarioDTOS, HttpStatus.OK);
-    }
-
     @PutMapping("/ativar")
     public ResponseEntity<String> ativar(@RequestBody UsuarioDTO dto){
         return new ResponseEntity<>(userService.ativar(dto), HttpStatus.OK);

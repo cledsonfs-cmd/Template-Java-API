@@ -27,14 +27,14 @@ public class AuthController {
     @PostMapping("/login")
     public LoginResponseDTO authenticateUser(@RequestBody LoginRequestDTO loginRequestDTO) {
         RecoveryJwtTokenDto token = userService.authenticateUser(loginRequestDTO);
-        Usuario usuario = userService.obterPorEmail(loginRequestDTO.email());
+        Usuario usuario = userService.obterPorEmail(loginRequestDTO.username());
         return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token,"","",usuario.getRole());
     }
 
     @PostMapping("/refresh")
     public LoginResponseDTO refreshToken(@RequestBody LoginRequestDTO loginRequestDTO) {
         RecoveryJwtTokenDto token = userService.authenticateUser(loginRequestDTO);
-        Usuario usuario = userService.obterPorEmail(loginRequestDTO.email());
+        Usuario usuario = userService.obterPorEmail(loginRequestDTO.username());
         return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token,"","",usuario.getRole());
     }
 
@@ -43,10 +43,25 @@ public class AuthController {
         return new ResponseEntity<>("Logout efetuado com sucesso!", HttpStatus.OK);
     }
 
-    @PostMapping("register")
+    @PostMapping("/register")
     public LoginResponseDTO createUser(@RequestBody CreateUserDto createUserDto) {
         Usuario usuario = userService.createUser(createUserDto);
         RecoveryJwtTokenDto token = userService.authenticateUser(new LoginRequestDTO(createUserDto.email(), createUserDto.password()));
         return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token, "", "",usuario.getRole());
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<LoginResponseDTO>> all(){
+        List<LoginResponseDTO> usuarioDTOS = new ArrayList<>();
+        for (Usuario usuario:userService.findAll()){
+            usuarioDTOS.add(new LoginResponseDTO(usuario.getId(),
+                    usuario.getEmail(),
+                    usuario.getNome(),
+                    null,
+                    "",
+                    "",
+                    usuario.getRole()));
+        }
+        return new ResponseEntity<>(usuarioDTOS, HttpStatus.OK);
     }
 }

@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "historico_usuario")
+@Entity
+@Table(name = "historico_usuario", schema = "template_java")
 public class UsuarioHistorico {
 
     @Id

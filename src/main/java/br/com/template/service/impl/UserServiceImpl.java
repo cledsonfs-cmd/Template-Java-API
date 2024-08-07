@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
     // Método responsável por autenticar um usuário e retornar um token JWT
     @Override
     public RecoveryJwtTokenDto authenticateUser(@NotNull LoginRequestDTO dto) {
-        if (dto.email().isEmpty()) {
+        if (dto.username().isEmpty()) {
             throw new CampoObrigatorioException();
         }
 
@@ -58,12 +58,12 @@ public class UserServiceImpl implements UserService {
         }
 
         try {
-            obterPorEmail(dto.email());
+            obterPorEmail(dto.username());
         } catch (RuntimeException e) {
             throw new UsuarioNotFoundException();
         }
 
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(dto.email(), dto.password());
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(dto.username(), dto.password());
         Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         if(authentication ==null){
             throw new UsuarioAutenticadoException();
