@@ -28,14 +28,14 @@ public class AuthController {
     public LoginResponseDTO authenticateUser(@RequestBody LoginRequestDTO loginRequestDTO) {
         RecoveryJwtTokenDto token = userService.authenticateUser(loginRequestDTO);
         Usuario usuario = userService.obterPorEmail(loginRequestDTO.username());
-        return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token,"","",usuario.getRole());
+        return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token,usuario.getProvedor(), usuario.getImageUrl(),usuario.getRole());
     }
 
     @PostMapping("/refresh")
     public LoginResponseDTO refreshToken(@RequestBody LoginRequestDTO loginRequestDTO) {
         RecoveryJwtTokenDto token = userService.authenticateUser(loginRequestDTO);
         Usuario usuario = userService.obterPorEmail(loginRequestDTO.username());
-        return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token,"","",usuario.getRole());
+        return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token,usuario.getProvedor(), usuario.getImageUrl(),usuario.getRole());
     }
 
     @PostMapping("/logout")
@@ -47,19 +47,20 @@ public class AuthController {
     public LoginResponseDTO createUser(@RequestBody CreateUserDto createUserDto) {
         Usuario usuario = userService.createUser(createUserDto);
         RecoveryJwtTokenDto token = userService.authenticateUser(new LoginRequestDTO(createUserDto.email(), createUserDto.password()));
-        return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token, "", "",usuario.getRole());
+        return new LoginResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getNome(), token, usuario.getProvedor(), usuario.getImageUrl(),usuario.getRole());
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<LoginResponseDTO>> all(){
-        List<LoginResponseDTO> usuarioDTOS = new ArrayList<>();
+    public ResponseEntity<List<UsuarioDTO>> all(){
+        List<UsuarioDTO> usuarioDTOS = new ArrayList<>();
         for (Usuario usuario:userService.findAll()){
-            usuarioDTOS.add(new LoginResponseDTO(usuario.getId(),
+            usuarioDTOS.add(new UsuarioDTO(
+                    usuario.getId(),
                     usuario.getEmail(),
                     usuario.getNome(),
-                    null,
-                    "",
-                    "",
+                    usuario.getProvedor(),
+                    usuario.getImageUrl(),
+                    usuario.getIdStatus(),
                     usuario.getRole()));
         }
         return new ResponseEntity<>(usuarioDTOS, HttpStatus.OK);
