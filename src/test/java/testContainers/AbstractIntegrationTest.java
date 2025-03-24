@@ -27,7 +27,6 @@ public class AbstractIntegrationTest {
                     "spring.datasource.url", postgres.getJdbcUrl(),
                     "spring.datasource.username", postgres.getUsername(),
                     "spring.datasource.password", postgres.getPassword());
-
         }
 
         @Override

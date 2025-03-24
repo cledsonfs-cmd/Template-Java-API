@@ -1,23 +1,22 @@
 version: "3.8"
 networks:
-  template-net:
+  app-net:
     driver: bridge
-    name: template-net
-  db-postgresql-net:
-    external: true
+    name: app-net
 
 services:
-  java-api:
-    container_name: "java-api"
-    image: templates.local:8080/java-api
+  app:
+    container_name: "template-api"
+    image: template-api
+    environment:
+      - MAVEN_PROFILE=prod
     networks:
-      - template-net
-      - db-postgresql-net
+      - app-net
     build:
       context: .
       dockerfile: Dockerfile
       args:
         - MAVEN_PROFILE=${MAVEN_PROFILE}
     ports:
-      - "8080:8080"
+      - "8090:8090"
     restart: unless-stopped
