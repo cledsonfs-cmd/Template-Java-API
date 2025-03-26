@@ -63,7 +63,7 @@ public class SecurityConfiguration {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(List.of("*")); // ✅ Permite Angular
+        config.setAllowedOrigins(List.of("http://localhost:4200")); // ✅ Permite Angular
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         source.registerCorsConfiguration("/**", config);
