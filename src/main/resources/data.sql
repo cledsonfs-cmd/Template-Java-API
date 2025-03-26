@@ -1,6 +1,6 @@
-CREATE SCHEMA IF NOT EXISTS template-java;
+CREATE SCHEMA IF NOT EXISTS template_java;
 
-CREATE TABLE IF NOT EXISTS template-java.users (
+CREATE TABLE IF NOT EXISTS template_java.users (
     id integer NOT NULL,
     ativo boolean DEFAULT true,
     login character varying(255),
@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS template-java.users (
 );
 
 
-INSERT INTO "template-java"."users"
+INSERT INTO "template_java"."users"
 (login, password, ativo, role)
 SELECT 'adm@template.com', '$2a$10$sQafMsE0BBrMY6s5Wo1I7.3J0.50ZFSrw2kp7Cl68mjqyOVJcSSBm', true, 0
-WHERE NOT EXISTS (SELECT 1 FROM "template-java"."users" WHERE login = 'adm@template.com');
+WHERE NOT EXISTS (SELECT 1 FROM "template_java"."users" WHERE login = 'adm@template.com');
