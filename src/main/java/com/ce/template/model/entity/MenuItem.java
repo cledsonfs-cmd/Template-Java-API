@@ -27,6 +27,12 @@ public class MenuItem {
     private Integer pai;
     private Integer ordenacao;
 
-    @Transient
+    @ManyToOne
+    @JoinColumn(name = "pai", referencedColumnName = "id", insertable = false, updatable = false)
+    @JsonIgnore  // Ignorar a serialização do pai
+    private MenuItem parent;
+
+    @OneToMany(mappedBy = "parent")
+    @JsonIgnore  // Evita a serialização infinita de filhos
     private List<MenuItem> children;
 }

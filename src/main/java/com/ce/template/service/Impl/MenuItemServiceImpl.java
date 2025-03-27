@@ -31,7 +31,7 @@ public class MenuItemServiceImpl implements MenuItemService {
 
     @Override
     public List<MenuItemDTO> findAll() {
-        return repository.findAll()
+        return repository.getRaizes()
                 .stream()
                 .map(menuItem -> new MenuItemDTO(
                         menuItem.getId(),

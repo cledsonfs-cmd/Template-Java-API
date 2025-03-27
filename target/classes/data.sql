@@ -28,24 +28,29 @@ CREATE TABLE IF NOT EXISTS template_java.menu_item (
 
 INSERT INTO template_java.menu_item (id, expanded, icon, "label", pai, route,ordenacao)
 SELECT
-nextval('template_java.users_id_seq'::regclass), false, '', 'Sistemas', 0, '',11
+nextval('template_java.users_id_seq'::regclass), false, '', 'Sistemas', null, '',11
 WHERE NOT EXISTS (SELECT 1 FROM "template_java".menu_item WHERE "label" = 'Sistemas');
 
 INSERT INTO template_java.menu_item (id, expanded, icon, "label", pai, route,ordenacao)
 SELECT
-nextval('template_java.users_id_seq'::regclass), false, 'fas fa-tachometer-alt', 'Dashboard', 11, '/home',12
+nextval('template_java.users_id_seq'::regclass), false, 'fas fa-tachometer-alt', 'Dashboard',
+(SELECT id FROM "template_java".menu_item WHERE "label" = 'Sistemas')
+, '/home',12
 WHERE NOT EXISTS (SELECT 1 FROM "template_java".menu_item WHERE "label" = 'Dashboard');
 
 INSERT INTO template_java.menu_item (id, expanded, icon, "label", pai, route,ordenacao)
 SELECT
-nextval('template_java.users_id_seq'::regclass), false, '', 'Relatórios', 0, '',21
+nextval('template_java.users_id_seq'::regclass), false, '', 'Relatórios',null, '',21
 WHERE NOT EXISTS (SELECT 1 FROM "template_java".menu_item WHERE "label" = 'Relatórios');
 
 INSERT INTO template_java.menu_item (id, expanded, icon, "label", pai, route, ordenacao)
 SELECT
-nextval('template_java.users_id_seq'::regclass), false, '', 'Configurações', 0, '',31
+nextval('template_java.users_id_seq'::regclass), false, '', 'Configurações', null, '',31
 WHERE NOT EXISTS (SELECT 1 FROM "template_java".menu_item WHERE "label" = 'Configurações');
+
 INSERT INTO template_java.menu_item (id, expanded, icon, "label", pai, route, ordenacao)
 SELECT
-nextval('template_java.users_id_seq'::regclass), false, 'fas fa-users', 'Usuários', 31, '/usuarios',32
+nextval('template_java.users_id_seq'::regclass), false, 'fas fa-users', 'Usuários',
+(SELECT id FROM "template_java".menu_item WHERE "label" = 'Configurações')
+, '/usuarios',32
 WHERE NOT EXISTS (SELECT 1 FROM "template_java".menu_item WHERE "label" = 'Usuários');
