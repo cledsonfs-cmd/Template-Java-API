@@ -1,8 +1,7 @@
 package com.ce.template.controller;
 
 import com.ce.template.model.dto.MenuItemDTO;
-import com.ce.template.model.dto.UserDTO;
-import com.ce.template.service.MenuItemService;
+import com.ce.template.model.service.MenuItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

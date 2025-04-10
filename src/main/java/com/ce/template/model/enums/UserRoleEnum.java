@@ -1,4 +1,4 @@
-package com.ce.template.enums;
+package com.ce.template.model.enums;
 
 
 public enum UserRoleEnum {

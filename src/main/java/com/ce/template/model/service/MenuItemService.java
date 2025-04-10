@@ -1,4 +1,4 @@
-package com.ce.template.service;
+package com.ce.template.model.service;
 
 import com.ce.template.model.dto.MenuItemDTO;
 

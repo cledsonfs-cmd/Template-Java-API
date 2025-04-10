@@ -1,6 +1,6 @@
 package com.ce.template.model.entity;
 
-import com.ce.template.enums.UserRoleEnum;
+import com.ce.template.model.enums.UserRoleEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;

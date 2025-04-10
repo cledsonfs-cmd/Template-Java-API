@@ -1,8 +1,8 @@
-package com.ce.template.service.Impl;
+package com.ce.template.model.service.Impl;
 
 import com.ce.template.model.dto.MenuItemDTO;
 import com.ce.template.model.entity.MenuItem;
-import com.ce.template.service.MenuItemService;
+import com.ce.template.model.service.MenuItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;

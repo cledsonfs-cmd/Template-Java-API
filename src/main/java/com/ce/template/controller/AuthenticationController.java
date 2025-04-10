@@ -1,7 +1,7 @@
 package com.ce.template.controller;
 
 import com.ce.template.model.dto.*;
-import com.ce.template.service.AuthenticationService;
+import com.ce.template.model.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -1,0 +1,8 @@
+/home/cledsonfs/Documentos/GitHub/Template-Java-API/src/test/java/com/ce/template/repository/UserRepositoryTest.java
+/home/cledsonfs/Documentos/GitHub/Template-Java-API/src/test/java/com/ce/template/integracao/controller/AuthControllerIntegrationTest.java
+/home/cledsonfs/Documentos/GitHub/Template-Java-API/src/test/java/com/ce/template/integracao/config/TestConfigs.java
+/home/cledsonfs/Documentos/GitHub/Template-Java-API/src/test/java/security/SecurityConfig.java
+/home/cledsonfs/Documentos/GitHub/Template-Java-API/src/test/java/com/ce/template/controller/AuthControllerTest.java
+/home/cledsonfs/Documentos/GitHub/Template-Java-API/src/test/java/com/ce/template/WlicencaApplicationTests.java
+/home/cledsonfs/Documentos/GitHub/Template-Java-API/src/test/java/com/ce/template/service/AuthenticationServiceTest.java
+/home/cledsonfs/Documentos/GitHub/Template-Java-API/src/test/java/testContainers/AbstractIntegrationTest.java

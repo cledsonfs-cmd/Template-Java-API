@@ -1,0 +1,9 @@
+com/ce/template/integracao/config/TestConfigs.class
+testContainers/AbstractIntegrationTest$Initializer.class
+com/ce/template/TemplateApplicationTests.class
+com/ce/template/repository/UserRepositoryTest.class
+com/ce/template/service/AuthenticationServiceTest.class
+security/SecurityConfig.class
+testContainers/AbstractIntegrationTest.class
+com/ce/template/controller/AuthControllerTest.class
+com/ce/template/integracao/controller/AuthControllerIntegrationTest.class

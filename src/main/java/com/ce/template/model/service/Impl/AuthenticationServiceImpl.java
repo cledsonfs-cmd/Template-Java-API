@@ -1,10 +1,10 @@
-package com.ce.template.service.Impl;
+package com.ce.template.model.service.Impl;
 
 import com.ce.template.model.dto.*;
 import com.ce.template.model.entity.User;
-import com.ce.template.repository.UserRepository;
+import com.ce.template.model.repository.UserRepository;
 import com.ce.template.security.service.TokenService;
-import com.ce.template.service.AuthenticationService;
+import com.ce.template.model.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -43,12 +44,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw  new ResponseStatusException(HttpStatus.BAD_REQUEST, "Campo password obrigatório.");
         }
 
-        var userNamePassword = new UsernamePasswordAuthenticationToken(dto.login(), dto.password());
-        var auth = this.authenticationManager.authenticate(userNamePassword);
-        User user = (User) auth.getPrincipal();
-        var token = tokenService.generateToken(user);
-
-        return new LoginResponseDTO(user.getId(), user.getLogin(), user.getRole(), token);
+        try {
+            var userNamePassword = new UsernamePasswordAuthenticationToken(dto.login(), dto.password());
+            var auth = this.authenticationManager.authenticate(userNamePassword);
+            User user = (User) auth.getPrincipal();
+            var token = tokenService.generateToken(user);
+            return new LoginResponseDTO(user.getId(), user.getLogin(), user.getRole(), token);
+        } catch (Exception e) {
+            throw  new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
+        }
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.ce.template.repository;
+package com.ce.template.model.repository;
 
 import com.ce.template.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

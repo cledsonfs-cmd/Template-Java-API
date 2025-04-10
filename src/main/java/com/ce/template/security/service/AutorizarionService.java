@@ -1,6 +1,6 @@
 package com.ce.template.security.service;
 
-import com.ce.template.repository.UserRepository;
+import com.ce.template.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
